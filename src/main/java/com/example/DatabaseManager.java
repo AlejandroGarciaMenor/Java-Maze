@@ -1,5 +1,6 @@
 package com.example;
 
+// Package sql and its classes to connect to the database and make queries
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -14,13 +15,17 @@ public class DatabaseManager {
     private static final String USER = "root";
     private static final String PASSWORD = "root"; 
 
+    // Method to load the robots from the database
     public static List<Robot> loadRobots() {
+
         List<Robot> robots = new ArrayList<>();
+
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery("SELECT * FROM robots")) {
                 System.out.println("Database connection established");
-
+            
+            // We iterate over the result set to create Robot objects for each row of the table in the database
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 int width = resultSet.getInt("width");
@@ -30,12 +35,17 @@ public class DatabaseManager {
                 int eyeColorInt = resultSet.getInt("eyeColor");
                 int armColorInt = resultSet.getInt("armColor");
                 int legColorInt = resultSet.getInt("legColor");
+
+                // We extract the RGB values from the integer values stored in the database
                 Color bodyColor = Color.rgb((bodyColorInt >> 16) & 0xFF, (bodyColorInt >> 8) & 0xFF, bodyColorInt & 0xFF);
                 Color headColor = Color.rgb((headColorInt >> 16) & 0xFF, (headColorInt >> 8) & 0xFF, headColorInt & 0xFF);
                 Color eyeColor = Color.rgb((eyeColorInt >> 16) & 0xFF, (eyeColorInt >> 8) & 0xFF, eyeColorInt & 0xFF);
                 Color armColor = Color.rgb((armColorInt >> 16) & 0xFF, (armColorInt >> 8) & 0xFF, armColorInt & 0xFF);
                 Color legColor = Color.rgb((legColorInt >> 16) & 0xFF, (legColorInt >> 8) & 0xFF, legColorInt & 0xFF);
+                
                 String bodyShape = resultSet.getString("bodyShape");
+                
+                // Add the new Robot object to the list
                 robots.add(new Robot(id, width, length, bodyColor, headColor, eyeColor, armColor, legColor, bodyShape));
             }
         } catch (Exception e) {
