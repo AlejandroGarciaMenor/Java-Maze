@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -13,6 +14,7 @@ import java.util.List;
 public class App extends Application {
     private Maze maze;
     private Robot robot;
+    private Label timeLabel;
 
     // Constructor to initialize the maze
     public App() {
@@ -36,6 +38,14 @@ public class App extends Application {
                 Pane root = new Pane(); // Container that has other nodes, like the Canvas
                 Canvas canvas = new Canvas(940, 560);   // Node that allows us to draw graphics in a scene
                 root.getChildren().add(canvas);
+                
+                // Create a label to display the time
+                timeLabel = new Label("Time:");
+                timeLabel.setLayoutX(10);
+                timeLabel.setLayoutY(530);
+                timeLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+                root.getChildren().add(timeLabel);                
+                
                 Scene scene = new Scene(root); // Container for all content in a scene graph
 
                 // Handle keyboard events
@@ -62,6 +72,11 @@ public class App extends Application {
     
         // Redraw the scene
         draw(gc);
+
+        // Update the time label
+        if (!robot.isTiming()) {
+            timeLabel.setText("Time: " + robot.getTotalTime()/1000 + " s");
+        }
     }
     
     // Method to draw the maze and the robot

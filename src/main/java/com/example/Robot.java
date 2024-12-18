@@ -10,8 +10,8 @@ public class Robot {
 
     // Robot attributes
     private Maze maze = new Maze();    
-    private int x_position = 40;
-    private int y_position = 40;
+    private int x_position = 0;
+    private int y_position = 0;
     private int movement = 40;
     private int width;
     private int length;
@@ -21,6 +21,11 @@ public class Robot {
     private Color armColor;
     private Color legColor;
     private String bodyShape;
+
+    // Attributes to record the time
+    private long startTime;
+    private long endTime;
+    private boolean isTiming;
 
     // Constructor to initialize the robot with its attributes
     public Robot(int id, int width, int length, Color bodyColor, Color headColor, Color eyeColor, Color armColor, Color legColor, String bodyShape) {
@@ -78,6 +83,11 @@ public class Robot {
     public void move(KeyEvent event) {
         int[][] mazeArray = maze.createMaze();
 
+        if (!isTiming) {
+            startTime = System.currentTimeMillis();
+            isTiming = true;
+        }
+
         switch (event.getCode()) {
             case LEFT:
                 if (mazeArray[y_position / movement][(x_position - movement) / movement] == 0) {
@@ -100,5 +110,31 @@ public class Robot {
                 }
                 break;
         }
+
+        // Check if the robot has reached the final block
+        if (hasReachedEnd(mazeArray)) {
+            endTime = System.currentTimeMillis();
+            long totalTime = endTime - startTime;
+            System.out.println("Total time: " + totalTime + " ms");
+            isTiming = false;
+        }
+    }
+
+    // Method to check if the robot has reached the final block
+    private boolean hasReachedEnd(int[][] mazeArray) {
+        // Assuming the final block is at the bottom-right corner of the maze
+        int finalX = (mazeArray[0].length - 1) * movement;
+        int finalY = (mazeArray.length - 1) * movement;
+        return x_position == finalX && y_position == finalY;
+    }
+
+    // Method to get the total time
+    public long getTotalTime() {
+        return endTime - startTime;
+    }
+
+    // Method to check if the timing is still active
+    public boolean isTiming() {
+        return isTiming;
     }
 }
