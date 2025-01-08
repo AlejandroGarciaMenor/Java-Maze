@@ -20,7 +20,19 @@ public class Maze {
 
         for (row = 0; row < numRows; row++) {
             for (column = 0; column < numColumns; column++) {
-                if (maze[row][column] == 1) {   // Paint the block if it is a wall
+                if (maze[row][column] == 2) {
+                    // Draw white and black squares
+                    for (int i = 0; i < widthBlock; i += 10) {
+                        for (int j = 0; j < heightBlock; j += 10) {
+                            if ((i + j) % 20 == 0) {
+                                gc.setFill(Color.WHITE);
+                            } else {
+                                gc.setFill(Color.BLACK);
+                            }
+                            gc.fillRect(column * widthBlock + i, row * heightBlock + j, 10, 10);
+                        }
+                    }
+                } else if (maze[row][column] == 1) {   // Paint the block if it is a wall
                     gc.setFill(blockColor);
                     gc.fillRect(column * widthBlock, row * heightBlock, widthBlock, heightBlock);
                     gc.setStroke(Color.BLACK);
@@ -48,7 +60,7 @@ public class Maze {
             {1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1},
             {1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1},
             {1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0},
-            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0}
+            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2}
         };
         return maze;
     }

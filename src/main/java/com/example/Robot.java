@@ -106,22 +106,22 @@ public class Robot {
 
         switch (event.getCode()) {
             case LEFT:
-                if (mazeArray[y_position / movement][(x_position - movement) / movement] == 0) {
+                if (mazeArray[y_position / movement][(x_position - movement) / movement] == 0 || mazeArray[y_position / movement][(x_position - movement) / movement] == 2) {
                     x_position -= movement;
                 }
                 break;
             case UP:
-                if (mazeArray[(y_position - movement) / movement][x_position / movement] == 0) {
+                if (mazeArray[(y_position - movement) / movement][x_position / movement] == 0 || mazeArray[(y_position - movement) / movement][x_position / movement] == 2) {
                     y_position -= movement;
                 }
                 break;
             case RIGHT:
-                if (mazeArray[y_position / movement][(x_position + movement) / movement] == 0) {
+                if (mazeArray[y_position / movement][(x_position + movement) / movement] == 0 || mazeArray[y_position / movement][(x_position + movement) / movement] == 2) {
                     x_position += movement;
                 }
                 break;
             case DOWN:
-                if (mazeArray[(y_position + movement) / movement][x_position / movement] == 0) {
+                if (mazeArray[(y_position + movement) / movement][x_position / movement] == 0 || mazeArray[(y_position + movement) / movement][x_position / movement] == 2) {
                     y_position += movement;
                 }
                 break;
