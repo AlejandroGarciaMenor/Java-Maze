@@ -1,0 +1,8 @@
+# Navigate to the project directory
+cd 'c:\Users\MSI\OneDrive - ISEP\Asignaturas Erasmus Cuarto Primer Cuatrimestre\Software Engineering and Java Programming\Project\maven_project\demo'
+
+# Compile the project
+mvn clean compile
+
+# Eexecute the project
+mvn javafx:run

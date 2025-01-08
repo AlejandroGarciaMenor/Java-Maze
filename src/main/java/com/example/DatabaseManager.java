@@ -3,6 +3,7 @@ package com.example;
 // Package sql and its classes to connect to the database and make queries
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javafx.scene.paint.Color;
@@ -28,6 +29,7 @@ public class DatabaseManager {
             // We iterate over the result set to create Robot objects for each row of the table in the database
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
                 int width = resultSet.getInt("width");
                 int length = resultSet.getInt("length");
                 int bodyColorInt = resultSet.getInt("bodyColor");
@@ -46,13 +48,29 @@ public class DatabaseManager {
                 String bodyShape = resultSet.getString("bodyShape");
                 
                 // Add the new Robot object to the list
-                robots.add(new Robot(id, width, length, bodyColor, headColor, eyeColor, armColor, legColor, bodyShape));
+                robots.add(new Robot(id, name, width, length, bodyColor, headColor, eyeColor, armColor, legColor, bodyShape));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         System.out.println("Robots loaded from database: " + robots.size());
         return robots;
+    }
+
+    // Method to update the score of a robot in the database
+    public static void updateRobotScore(int robotId, long score) {
+        String updateScoreSQL = "UPDATE robots SET score = ? WHERE id = ?";
+
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(updateScoreSQL)) {
+
+            preparedStatement.setLong(1, score);
+            preparedStatement.setInt(2, robotId);
+
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
 

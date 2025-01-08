@@ -5,6 +5,8 @@ import javafx.scene.Scene;
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
@@ -76,6 +78,13 @@ public class App extends Application {
         // Update the time label
         if (!robot.isTiming()) {
             timeLabel.setText("Time: " + robot.getTotalTime()/1000 + " s");
+
+            // Show a popup congratulating the player
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Congratulations!");
+            alert.setHeaderText(null);
+            alert.setContentText("You have completed the maze in " + robot.getTotalTime() / 1000 + " seconds!");
+            alert.showAndWait();
         }
     }
     

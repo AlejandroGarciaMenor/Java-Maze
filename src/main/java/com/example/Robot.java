@@ -3,10 +3,12 @@ package com.example;
 import javafx.scene.canvas.GraphicsContext; // Packet and class to paint on the canvas
 import javafx.scene.input.KeyEvent; // Packet and class to handle key events
 import javafx.scene.paint.Color;    // Packet and class to handle colors
+import javafx.scene.control.Label;  // Packet and class to handle labels
 
 public class Robot {
     // We create an instance of the Maze class to access the createMaze method
     private int id;
+    private String name;
 
     // Robot attributes
     private Maze maze = new Maze();    
@@ -26,10 +28,12 @@ public class Robot {
     private long startTime;
     private long endTime;
     private boolean isTiming;
+    private Label timeLabel;
 
     // Constructor to initialize the robot with its attributes
-    public Robot(int id, int width, int length, Color bodyColor, Color headColor, Color eyeColor, Color armColor, Color legColor, String bodyShape) {
+    public Robot(int id, String name, int width, int length, Color bodyColor, Color headColor, Color eyeColor, Color armColor, Color legColor, String bodyShape) {
         this.id = id;
+        this.name = name;
         this.width = width;
         this.length = length;
         this.headColor = headColor;
@@ -38,6 +42,18 @@ public class Robot {
         this.armColor = armColor;
         this.legColor = legColor;
         this.bodyShape = bodyShape;
+        this.isTiming = false;
+    }
+
+    // Method to set the time label
+    public void setTimeLabel(Label timeLabel) {
+        this.timeLabel = timeLabel;
+    }
+
+    // Override the toString method to return the name of the robot
+    @Override
+    public String toString() {
+        return name;
     }
 
     // Method to paint the robot on the canvas
@@ -115,7 +131,10 @@ public class Robot {
         if (hasReachedEnd(mazeArray)) {
             endTime = System.currentTimeMillis();
             long totalTime = endTime - startTime;
-            System.out.println("Total time: " + totalTime + " ms");
+            if (timeLabel != null) {
+                timeLabel.setText("Total time: " + totalTime + " ms");
+            }
+            DatabaseManager.updateRobotScore(id, totalTime); // Update the score in the database
             isTiming = false;
         }
     }
