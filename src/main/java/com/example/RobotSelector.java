@@ -5,7 +5,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.scene.control.Label;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -22,6 +24,18 @@ public class RobotSelector {
             Stage primaryStage = new Stage();
             primaryStage.setTitle("Select a Robot");
 
+            // Create a VBox layout to hold the welcome message, instructions, ComboBox, and button
+            VBox vbox = new VBox(10);
+            vbox.setStyle("-fx-padding: 20; -fx-alignment: center;");
+
+            // Create a welcome message label
+            Label welcomeLabel = new Label("Welcome to the Maze Game!");
+            welcomeLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+
+            // Create an instruction message label
+            Label instructionLabel = new Label("Please select a robot from the list and press 'Start' to begin playing.");
+            instructionLabel.setStyle("-fx-font-size: 14px;");
+
             // We create a ComboBox to display the list of robots
             ComboBox<Robot> robotComboBox = new ComboBox<>();
             robotComboBox.getItems().addAll(robots);
@@ -36,13 +50,13 @@ public class RobotSelector {
                 primaryStage.close();
             });
 
-            // Create a border pane layout and add the combo box and button
-            BorderPane root = new BorderPane();
-            root.setCenter(robotComboBox);
-            root.setBottom(selectButton);
+            // Add the labels, ComboBox, and button to the VBox layout
+            vbox.getChildren().addAll(welcomeLabel, instructionLabel, robotComboBox, selectButton);
+
+
 
             // Create a scene with the border pane layout and set it to the stage
-            Scene scene = new Scene(root, 300, 200);
+            Scene scene = new Scene(vbox, 500, 300);
             primaryStage.setScene(scene);
             primaryStage.show();
         });
